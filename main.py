@@ -5,7 +5,7 @@ import pygame  # noqa: F401 — ΜΗΝ το σβήσεις: το pygbag διαβ
 # ---------------- Ρυθμίσεις ----------------
 WIDTH, HEIGHT = 800, 600
 FPS = 60
-score = 0
+
 
 async def main():
     pygame.init()
@@ -21,6 +21,7 @@ async def main():
     coin_x = random.randint(20, WIDTH - 20)
     coin_y = random.randint(20, HEIGHT - 20)
 
+    score = 1
     font = pygame.font.Font(None, 48)
 
     running = True
