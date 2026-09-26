@@ -41,6 +41,11 @@ async def main():
             player.y += speed
         player.clamp_ip(screen.get_rect())
 
+        coin_rect = pygame.Rect(coin_x - 15, coin_y - 15, 30, 30)
+        if player.colliderect(coin_rect):
+            coin_x = random.randint(20, WIDTH - 20)
+            coin_y = random.randint(20, HEIGHT - 20)
+
         # 3) ΖΩΓΡΑΦΙΚΗ
         screen.fill((15, 40, 60))
         pygame.draw.rect(screen, (80, 200, 120), player)
