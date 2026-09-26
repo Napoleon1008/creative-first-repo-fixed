@@ -39,7 +39,7 @@ async def main():
             player.y -= speed
         if keys[pygame.K_DOWN]:
             player.y += speed
-
+        player.clamp_ip(screen.get_rect())
 
         # 3) ΖΩΓΡΑΦΙΚΗ
         screen.fill((15, 40, 60))
