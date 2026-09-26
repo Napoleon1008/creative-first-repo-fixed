@@ -1,6 +1,9 @@
 import asyncio
 import random
 import pygame  # noqa: F401 — ΜΗΝ το σβήσεις: το pygbag διαβάζει ΜΟΝΟ αυτό το αρχείο για imports
+import time
+
+random.seed(time.time_ns())
 
 # ---------------- Ρυθμίσεις ----------------
 WIDTH, HEIGHT = 800, 600
