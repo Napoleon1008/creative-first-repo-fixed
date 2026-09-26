@@ -1,0 +1,175 @@
+#!/usr/bin/env bash
+
+# ROBOTONIO — σταθερό run script για Pygame/pygbag μέσα σε GitHub Codespaces.
+#
+# Κανονική χρήση:
+#   bash tools/run-game
+#
+# Πλήρες reset build/cache:
+#   bash tools/run-game --clean
+#
+# ΜΗΝ αφαιρέσεις:
+#   --ume_block 0   (αποφεύγει MEDIA USER ACTION REQUIRED)
+#   --build         (χτίζουμε μόνο και σερβίρουμε εμείς το build/web)
+#   --PYBUILD 3.12  (σταθερό web Python runtime)
+
+set -Eeuo pipefail
+
+PORT=8000
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+if [ ! -f main.py ]; then
+  echo ""
+  echo "❌ Δεν βρέθηκε main.py."
+  echo "   Τρέξε: bash tools/run-game"
+  echo "   από τον βασικό φάκελο του project."
+  echo ""
+  exit 1
+fi
+
+if ! python -c "import pygbag, pygame" >/dev/null 2>&1; then
+  echo ""
+  echo "❌ Δεν βρέθηκε σωστά το pygbag/pygame."
+  echo "   Το Codespace μάλλον δεν ολοκλήρωσε το αρχικό setup."
+  echo "   Command Palette → Codespaces: Rebuild Container"
+  echo ""
+  exit 1
+fi
+
+echo ""
+echo "============================================"
+echo " ROBOTONIO · Creative 1 · Lesson 01"
+echo "============================================"
+echo "Python : $(python --version 2>&1)"
+echo "pygbag : $(python -m pip show pygbag 2>/dev/null | awk '/^Version:/{print $2}')"
+echo "pygame : $(python -c 'import pygame; print(pygame.version.ver)')"
+echo ""
+
+echo "== 1/4 Καθαρισμός παλιού server =="
+
+if command -v lsof >/dev/null 2>&1; then
+  OLD_PIDS="$(lsof -tiTCP:${PORT} -sTCP:LISTEN 2>/dev/null || true)"
+  if [ -n "$OLD_PIDS" ]; then
+    kill -9 $OLD_PIDS 2>/dev/null || true
+    sleep 1
+  fi
+elif command -v fuser >/dev/null 2>&1; then
+  fuser -k -9 "${PORT}/tcp" >/dev/null 2>&1 || true
+  sleep 1
+else
+  pkill -f "tools/server.py ${PORT}" >/dev/null 2>&1 || true
+fi
+
+echo "✅ Port ${PORT} έτοιμο."
+
+echo ""
+echo "== 2/4 Καθαρισμός προηγούμενου build =="
+
+if [ "${1:-}" = "--clean" ]; then
+  rm -rf build
+  echo "✅ Έγινε πλήρες clean (μαζί με pygbag cache)."
+else
+  rm -rf build/web
+  echo "✅ Καθαρίστηκε το προηγούμενο web build."
+fi
+
+# Το pygbag 0.9.3 περιμένει να υπάρχει ήδη ο φάκελος build/web
+# όταν τρέχει σε --build mode. Τον ξαναδημιουργούμε πάντα μετά το cleanup.
+mkdir -p build/web build/web-cache
+
+echo ""
+echo "== 3/4 Build με pygbag =="
+
+python -m pygbag --PYBUILD 3.12 --ume_block 0 --app_name game --build main.py
+
+if [ ! -f build/web/index.html ]; then
+  echo ""
+  echo "❌ Το pygbag δεν δημιούργησε build/web/index.html."
+  echo "   Δοκίμασε: bash tools/run-game --clean"
+  exit 1
+fi
+
+ARCHIVE="$(find build/web -maxdepth 1 -type f -name '*.tar.gz' -size +0c -print -quit)"
+
+if [ -z "$ARCHIVE" ]; then
+  echo ""
+  echo "❌ Δεν δημιουργήθηκε έγκυρο .tar.gz για το παιχνίδι."
+  echo "   Δοκίμασε: bash tools/run-game --clean"
+  exit 1
+fi
+
+if ! tar -tzf "$ARCHIVE" >/dev/null 2>&1; then
+  echo ""
+  echo "❌ Το αρχείο του παιχνιδιού δημιουργήθηκε αλλά είναι κατεστραμμένο:"
+  echo "   $ARCHIVE"
+  echo "   Δοκίμασε: bash tools/run-game --clean"
+  exit 1
+fi
+
+echo "✅ Build OK: $ARCHIVE"
+
+echo ""
+echo "== 4/4 Εκκίνηση server =="
+
+SERVER_LOG="/tmp/robotonio-server-${PORT}.log"
+python tools/server.py "$PORT" "build/web" >"$SERVER_LOG" 2>&1 &
+SERVER_PID=$!
+
+cleanup() {
+  if kill -0 "$SERVER_PID" >/dev/null 2>&1; then
+    kill "$SERVER_PID" >/dev/null 2>&1 || true
+  fi
+}
+trap cleanup EXIT INT TERM
+
+READY=0
+for _ in $(seq 1 40); do
+  if curl -fsS "http://127.0.0.1:${PORT}/" >/dev/null 2>&1; then
+    READY=1
+    break
+  fi
+
+  if ! kill -0 "$SERVER_PID" >/dev/null 2>&1; then
+    break
+  fi
+
+  sleep 0.25
+done
+
+if [ "$READY" -ne 1 ]; then
+  echo ""
+  echo "❌ Ο web server δεν ξεκίνησε σωστά."
+  [ -f "$SERVER_LOG" ] && cat "$SERVER_LOG"
+  exit 1
+fi
+
+if command -v gh >/dev/null 2>&1 && [ -n "${CODESPACE_NAME:-}" ]; then
+  if gh codespace ports visibility "${PORT}:public" -c "$CODESPACE_NAME" >/dev/null 2>&1; then
+    echo "✅ Port ${PORT} → Public"
+  else
+    echo "⚠ Δεν μπόρεσα να κάνω αυτόματα το port Public."
+    echo "   Ports → δεξί κλικ στο 8000 → Port Visibility → Public"
+  fi
+fi
+
+echo ""
+echo "============================================"
+echo "✅ ΤΟ ΠΑΙΧΝΙΔΙ ΕΙΝΑΙ ΕΤΟΙΜΟ"
+echo "============================================"
+
+if [ -n "${CODESPACE_NAME:-}" ]; then
+  echo "URL: https://${CODESPACE_NAME}-${PORT}.app.github.dev/"
+else
+  echo "URL: http://127.0.0.1:${PORT}/"
+fi
+
+echo ""
+echo "Άνοιξε το Port 8000 από το tab Ports."
+echo "Για τερματισμό: Ctrl+C"
+echo ""
+echo "Αν κολλήσει στο Loading:"
+echo "  bash tools/run-game --clean"
+echo ""
+
+wait "$SERVER_PID"
