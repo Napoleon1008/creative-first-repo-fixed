@@ -8,7 +8,7 @@ random.seed(time.time_ns())
 # ---------------- Ρυθμίσεις ----------------
 WIDTH, HEIGHT = 800, 600
 FPS = 60
-
+GAME_TIME = 45
 
 async def main():
     pygame.init()
@@ -69,6 +69,9 @@ async def main():
         if enemy.colliderect(player):
             if score > 0:
                 score -= 1
+
+        elapsed_time = (pygame.time.get.ticks() - start_time) // 1000
+        time_left = GAME_TIME - elapsed_time
 
         # 3) ΖΩΓΡΑΦΙΚΗ
         screen.fill((15, 40, 60))
