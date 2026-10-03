@@ -20,6 +20,11 @@ async def main():
     player = pygame.Rect(380, 280, 40, 40)
     speed = 5
 
+    enemy_x = random.randint(20, WIDTH - 20)
+    enemy_y = random.randint(20, HEIGHT - 20)
+    enemy = pygame.Rect(enemy_x,enemy_y, 50, 50)
+
+
     # ΒΗΜΑ 3 — το νόμισμα: σε τυχαία θέση
     coin_x = random.randint(20, WIDTH - 20)
     coin_y = random.randint(20, HEIGHT - 20)
@@ -53,10 +58,16 @@ async def main():
             coin_x = random.randint(20, WIDTH - 20)
             coin_y = random.randint(20, HEIGHT - 20)
 
+        enemy.x += enemy_speed
+        if enemy.left <= 0 or enemy_right >= WIDTH:
+            enemy_speed = enemy_speed * -1 #enemy_speed *= -1
+
         # 3) ΖΩΓΡΑΦΙΚΗ
         screen.fill((15, 40, 60))
         pygame.draw.rect(screen, (80, 200, 120), player)
         pygame.draw.circle(screen, (255, 209, 102), (coin_x, coin_y), 15)
+
+        pygame.draw.rect(screen,(220, 70, 70), enemy)
 
         text = font.render(f"Score: {score}", True, (255, 255, 255))
         screen.blit(text, (20, 20))
