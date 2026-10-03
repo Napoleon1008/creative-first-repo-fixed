@@ -32,6 +32,8 @@ async def main():
     score = 0
     font = pygame.font.Font(None, 48)
 
+    start_time = pygame.get_ticks()
+
     running = True
     while running:
         # 1) ΓΕΓΟΝΟΤΑ
@@ -59,7 +61,7 @@ async def main():
             coin_y = random.randint(20, HEIGHT - 20)
             if score % 3 == 0:
                 enemy_speed += 1
-                
+
         enemy.x += enemy_speed
         if enemy.left <= 0 or enemy.right >= WIDTH:
             enemy_speed = enemy_speed * -1 #enemy_speed *= -1
