@@ -62,6 +62,10 @@ async def main():
         if enemy.left <= 0 or enemy.right >= WIDTH:
             enemy_speed = enemy_speed * -1 #enemy_speed *= -1
 
+        if enemy.colliderect(player):
+            if score > 0:
+                score -= 1
+
         # 3) ΖΩΓΡΑΦΙΚΗ
         screen.fill((15, 40, 60))
         pygame.draw.rect(screen, (80, 200, 120), player)
