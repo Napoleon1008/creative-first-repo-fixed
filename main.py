@@ -86,7 +86,7 @@ async def main():
         screen.blit(text, (20, 20))
 
         time = font.render(f"Time left: {time_left}", True, (255, 255, 255))
-        screen.blit(text, (550, 20))
+        screen.blit(time, (550, 20))
         
         pygame.display.flip()
 
