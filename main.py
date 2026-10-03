@@ -66,6 +66,9 @@ async def main():
             if score > 0:
                 score -= 1
 
+        if score % 3 == 0:
+            enemy_speed += 1
+
         # 3) ΖΩΓΡΑΦΙΚΗ
         screen.fill((15, 40, 60))
         pygame.draw.rect(screen, (80, 200, 120), player)
