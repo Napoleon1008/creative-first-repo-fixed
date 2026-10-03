@@ -57,7 +57,9 @@ async def main():
             score = score + 1
             coin_x = random.randint(20, WIDTH - 20)
             coin_y = random.randint(20, HEIGHT - 20)
-
+            if score % 3 == 0:
+                enemy_speed += 1
+                
         enemy.x += enemy_speed
         if enemy.left <= 0 or enemy.right >= WIDTH:
             enemy_speed = enemy_speed * -1 #enemy_speed *= -1
@@ -65,9 +67,6 @@ async def main():
         if enemy.colliderect(player):
             if score > 0:
                 score -= 1
-
-        if score % 3 == 0:
-            enemy_speed += 1
 
         # 3) ΖΩΓΡΑΦΙΚΗ
         screen.fill((15, 40, 60))
