@@ -66,7 +66,7 @@ async def main():
         enemy.x += enemy_speed
         if enemy.left <= 0 or enemy.right >= WIDTH:
             enemy_dir *= -1
-            enemy.x - enemy.x + enemy_speed * enemy_dir
+        enemy.x = enemy.x + enemy_speed * enemy_dir
 
         if enemy.colliderect(player):
             if score > 0:
