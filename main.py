@@ -70,7 +70,7 @@ async def main():
             if score > 0:
                 score -= 1
 
-        elapsed_time = (pygame.time.get.ticks() - start_time) // 1000
+        elapsed_time = (pygame.time.get_ticks() - start_time) // 1000
         time_left = GAME_TIME - elapsed_time
 
         # 3) ΖΩΓΡΑΦΙΚΗ
