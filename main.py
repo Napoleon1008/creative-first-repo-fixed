@@ -32,7 +32,7 @@ async def main():
     score = 0
     font = pygame.font.Font(None, 48)
 
-    start_time = pygame.get_ticks()
+    start_time = pygame.time.get_ticks()
 
     running = True
     while running:
