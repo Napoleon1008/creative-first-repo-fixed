@@ -59,7 +59,7 @@ async def main():
             coin_y = random.randint(20, HEIGHT - 20)
 
         enemy.x += enemy_speed
-        if enemy.left <= 0 or enemy_right >= WIDTH:
+        if enemy.left <= 0 or enemy.right >= WIDTH:
             enemy_speed = enemy_speed * -1 #enemy_speed *= -1
 
         # 3) ΖΩΓΡΑΦΙΚΗ
