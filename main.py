@@ -35,7 +35,9 @@ async def main():
 
     start_time = pygame.time.get_ticks()
 
+    won = False
     running = True
+    game_over = False
     while running:
         # 1) ΓΕΓΟΝΟΤΑ
         for event in pygame.event.get():
@@ -44,35 +46,40 @@ async def main():
 
         # 2) ΛΟΓΙΚΗ
         # ΒΗΜΑ 2 — κίνηση με τα βελάκια
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            player.x -= speed
-        if keys[pygame.K_RIGHT]:
-            player.x += speed
-        if keys[pygame.K_UP]:
-            player.y -= speed
-        if keys[pygame.K_DOWN]:
-            player.y += speed
-        player.clamp_ip(screen.get_rect())
+        if not game_over:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_LEFT]:
+                player.x -= speed
+            if keys[pygame.K_RIGHT]:
+                player.x += speed
+            if keys[pygame.K_UP]:
+                player.y -= speed
+            if keys[pygame.K_DOWN]:
+                player.y += speed
+            player.clamp_ip(screen.get_rect())
 
-        coin_rect = pygame.Rect(coin_x - 15, coin_y - 15, 30, 30)
-        if player.colliderect(coin_rect):
-            score = score + 1
-            coin_x = random.randint(20, WIDTH - 20)
-            coin_y = random.randint(20, HEIGHT - 20)
-            if score % 3 == 0:
-                enemy_speed += 1
+            coin_rect = pygame.Rect(coin_x - 15, coin_y - 15, 30, 30)
+            if player.colliderect(coin_rect):
+                score = score + 1
+                coin_x = random.randint(20, WIDTH - 20)
+                coin_y = random.randint(20, HEIGHT - 20)
+                if score % 3 == 0:
+                    enemy_speed += 1
 
-        if enemy.left <= 0 or enemy.right >= WIDTH:
-            enemy_dir *= -1
-        enemy.x = enemy.x + enemy_speed * enemy_dir
+            if enemy.left <= 0 or enemy.right >= WIDTH:
+                enemy_dir *= -1
+            enemy.x = enemy.x + enemy_speed * enemy_dir
 
-        if enemy.colliderect(player):
-            if score > 0:
-                score -= 1
+            if enemy.colliderect(player):
+                game_over = True
+                won = False
 
-        elapsed_time = (pygame.time.get_ticks() - start_time) // 1000
-        time_left = GAME_TIME - elapsed_time
+            elapsed_time = (pygame.time.get_ticks() - start_time) // 1000
+            time_left = GAME_TIME - elapsed_time
+
+            if time_left <= 0:
+                game_over = True
+                won = False
 
         # 3) ΖΩΓΡΑΦΙΚΗ
         screen.fill((15, 40, 60))
@@ -86,7 +93,15 @@ async def main():
 
         time = font.render(f"Time left: {time_left}", True, (255, 255, 255))
         screen.blit(time, (550, 20))
-        
+
+        if game_over:
+            if won:
+                message = "WINNER!"
+            else:
+                message = "LOOSER"
+
+            end_text = font.render(message, True, (255, 255, 255))
+            restart_text = font.render("Press r to restart", True, (255, 255, 255))
         pygame.display.flip()
 
         clock.tick(FPS)
