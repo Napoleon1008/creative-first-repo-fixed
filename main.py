@@ -78,11 +78,11 @@ async def main():
             elapsed_time = (pygame.time.get_ticks() - start_time) // 1000
             time_left = GAME_TIME - elapsed_time
 
-            if time_left <= 0:
+            if time_left <= 0 and score < TARGET_COINS:
                 game_over = True
                 won = False
 
-            if score >= TARGET_COINS:
+            if score >= TARGET_COINS and score >= TARGET_COINS:
                 game_over = True
                 won = True
 
