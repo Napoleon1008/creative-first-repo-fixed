@@ -9,7 +9,7 @@ random.seed(time.time_ns())
 WIDTH, HEIGHT = 800, 600
 FPS = 60
 GAME_TIME = 45
-TARGET_COINS = 
+TARGET_COINS = 20
 
 async def main():
     pygame.init()
@@ -85,7 +85,7 @@ async def main():
             if score >= TARGET_COINS:
                 game_over = True
                 won = True
-                
+
         # 3) ΖΩΓΡΑΦΙΚΗ
         screen.fill((15, 40, 60))
         pygame.draw.rect(screen, (80, 200, 120), player)
