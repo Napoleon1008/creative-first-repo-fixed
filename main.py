@@ -33,6 +33,7 @@ async def main():
 
     score = 0
     font = pygame.font.Font(None, 48)
+    small_font = pygame.font.Font(None, 36)
 
     start_time = pygame.time.get_ticks()
 
@@ -117,7 +118,7 @@ async def main():
                 message = "LOOSER"
 
             end_text = font.render(message, True, (255, 255, 255))
-            restart_text = font.render("Press r to restart", True, (255, 255, 255))
+            restart_text = small.font.render("Press r to restart", True, (255, 255, 255))
 
             screen.blit(end_text, (WIDTH // 2 - end_text.width // 2, HEIGHT // 2 - 40))
             screen.blit(restart_text, (WIDTH // 2 - restart_text.width // 2, HEIGHT // 2 + 40))
