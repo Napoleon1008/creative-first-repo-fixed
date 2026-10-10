@@ -44,6 +44,17 @@ async def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_r and game_over:
+                player.x, player.y = 300, 280
+                coin_x = random.randint(20, WIDTH - 20)
+                coin_y = random.randint(20, HEIGHT - 20)
+                enemy_x = random.randint(25, WIDTH - 25)
+                enemy_y = random.randint(25, HEIGHT - 25)
+                enemy_speed = 4
+                score = 0
+                start_time = pygame.time.get_ticks()
+                game_over = False
+                won = False
 
         # 2) ΛΟΓΙΚΗ
         # ΒΗΜΑ 2 — κίνηση με τα βελάκια
