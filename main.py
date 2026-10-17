@@ -96,8 +96,11 @@ async def main():
             if keys[pygame.K_DOWN]:
                 player.y += speed
             player.clamp_ip(screen.get_rect())
-
+            
+            coin_x = random.randint(20, WIDTH - 20)
+            coin_y = random.randint(20, HEIGHT - 20)
             coin_rect = pygame.Rect(coin_x - 15, coin_y - 15, 30, 30)
+            
             if player.colliderect(coin_rect):
                 score =+ coin_value
                 coin_type = random.randint(1, 10)
