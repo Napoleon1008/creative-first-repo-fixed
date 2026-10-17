@@ -34,13 +34,13 @@ async def main():
     coin_type = random.randint(1, 10)
 
     if coin_type <= 6:
-        coin_color = (255, 209, 102) #yellow
+        coin_color = (184, 115, 51) #yellow
         coin_value = 1
     elif coin_type <= 9:
-        coin_color = (70, 150, 255) #blue
+        coin_color = (161, 157, 148) #blue
         coin_value = 3
     else:
-        coin_color = (192, 100, 255) #purple
+        coin_color = (196, 175, 35) #purple
         coin_value = 5
     
     score = 0
@@ -71,13 +71,13 @@ async def main():
                 coin_type = random.randint(1, 10)
                 
                 if coin_type <= 6:
-                    coin_color = (255, 209, 102) #yellow
+                    coin_color = (184, 115, 51) #yellow
                     coin_value = 1
                 elif coin_type <= 9:
-                    coin_color = (70, 150, 255) #blue
+                    coin_color = (161, 157, 148) #blue
                     coin_value = 3
                 else:
-                    coin_color = (192, 100, 255) #purple
+                    coin_color = (196, 175, 35) #purple
                     coin_value = 5
                 
                 game_over = False
@@ -107,13 +107,13 @@ async def main():
                 coin_type = random.randint(1, 10)
                                 
                 if coin_type <= 6:
-                    coin_color = (255, 209, 102) #yellow
+                    coin_color = (184, 115, 51) #yellow
                     coin_value = 1
                 elif coin_type <= 9:
-                    coin_color = (70, 150, 255) #blue
+                    coin_color = (161, 157, 148) #blue
                     coin_value = 3
                 else:
-                    coin_color = (192, 100, 255) #purple
+                    coin_color = (196, 175, 35) #purple
                     coin_value = 5
                 if score % 3 == 0:
                     enemy_speed += 1
