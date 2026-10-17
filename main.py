@@ -21,8 +21,8 @@ async def main():
     player = pygame.Rect(380, 280, 40, 40)
     speed = 5
 
-    enemy_x = random.randint(25, WIDTH - 25)
-    enemy_y = random.randint(25, HEIGHT - 25)
+    enemy_x = 100
+    enemy_y = 150
     enemy = pygame.Rect(enemy_x,enemy_y, 50, 50)
     enemy_speed = 4
     enemy_dir = 1
