@@ -140,7 +140,7 @@ async def main():
         # 3) ΖΩΓΡΑΦΙΚΗ
         screen.fill((15, 40, 60))
         pygame.draw.rect(screen, (80, 200, 120), player)
-        pygame.draw.circle(screen, (255, 209, 102), (coin_x, coin_y), 15)
+        pygame.draw.circle(screen, coin_color, (coin_x, coin_y), 15)
         value_text = coin_font.render(str(coin_value), True, (0, 0, 0))
         screen.blit(value_text, (coin_x - value_text.get_width() // 2,
                                  coin_y - value_text.get_height() // 2))
