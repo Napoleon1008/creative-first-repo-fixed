@@ -99,9 +99,18 @@ async def main():
 
             coin_rect = pygame.Rect(coin_x - 15, coin_y - 15, 30, 30)
             if player.colliderect(coin_rect):
-                score = coin_value
-                coin_x = random.randint(20, WIDTH - 20)
-                coin_y = random.randint(20, HEIGHT - 20)
+                score =+ coin_value
+                coin_type = random.randint(1, 10)
+                                
+                if coin_type <= 6:
+                    coin_color = (255, 209, 102) #yellow
+                    coin_value = 1
+                elif coin_type <= 9:
+                    coin_color = (70, 150, 255) #blue
+                    coin_value = 3
+                else:
+                    coin_color = (192, 100, 255) #purple
+                    coin_value = 5
                 if score % 3 == 0:
                     enemy_speed += 1
 
