@@ -31,9 +31,22 @@ async def main():
     coin_x = random.randint(20, WIDTH - 20)
     coin_y = random.randint(20, HEIGHT - 20)
 
+    coin_type = random.randint(1, 10)
+
+    if coin_type <= 6:
+        coin_color = (255, 209, 102) #yellow
+        coin_value = 1
+    elif coin_type <= 9:
+        coin_color = (70, 150, 255) #blue
+        coin_value = 3
+    else:
+        coin_color = (192, 100, 255) #purple
+        coin_value = 5
+    
     score = 0
     font = pygame.font.Font(None, 48)
     small_font = pygame.font.Font(None, 36)
+    coin_font = pygame.font.Font(None, 27)
 
     start_time = pygame.time.get_ticks()
 
@@ -54,6 +67,19 @@ async def main():
                 enemy_speed = 4
                 score = 0
                 start_time = pygame.time.get_ticks()
+                
+                coin_type = random.randint(1, 10)
+                
+                if coin_type <= 6:
+                    coin_color = (255, 209, 102) #yellow
+                    coin_value = 1
+                elif coin_type <= 9:
+                    coin_color = (70, 150, 255) #blue
+                    coin_value = 3
+                else:
+                    coin_color = (192, 100, 255) #purple
+                    coin_value = 5
+                
                 game_over = False
                 won = False
 
@@ -102,6 +128,9 @@ async def main():
         screen.fill((15, 40, 60))
         pygame.draw.rect(screen, (80, 200, 120), player)
         pygame.draw.circle(screen, (255, 209, 102), (coin_x, coin_y), 15)
+        value_text = coin_font.render(str(coin_value), True, (0, 0, 0))
+        screen.blit(value_text, (coin_x - value_text.get_width() // 2,
+                                 coin_y - value_text.get_height() // 2))
 
         pygame.draw.rect(screen,(220, 70, 70), enemy)
 
