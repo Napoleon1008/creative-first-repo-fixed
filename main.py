@@ -9,7 +9,9 @@ random.seed(time.time_ns())
 WIDTH, HEIGHT = 800, 600
 FPS = 60
 GAME_TIME = 45
-TARGET_COINS = 20
+TARGET_COINS = 30
+STARTING_LIVES = 
+HIT_COOLDOWN = 1200
 
 async def main():
     pygame.init()
@@ -20,6 +22,8 @@ async def main():
     # ΒΗΜΑ 1 — ο παίκτης: ένα ορθογώνιο (x, y, πλάτος, ύψος)
     player = pygame.Rect(380, 280, 40, 40)
     speed = 5
+    lives = STARTING_LIVES
+    last_hit_time = - HIT_COOLDOWN
 
     enemy_x = 100
     enemy_y = 150
@@ -122,10 +126,23 @@ async def main():
                 enemy_dir *= -1
             enemy.x = enemy.x + enemy_speed * enemy_dir
 
+            current_time = pygame.time.get_ticks()
+
             if enemy.colliderect(player):
                 game_over = True
                 won = False
 
+                if current_time - last_hit_time >= HIT_COOLDOWN:
+                    lives -= 1
+                    last_hit_time = current_time
+
+                    player.x = 380
+                    player.y = 280
+
+                    if lives <= 0:
+                        game_over = True
+                        won = False
+                
             elapsed_time = (pygame.time.get_ticks() - start_time) // 1000
             time_left = GAME_TIME - elapsed_time
 
