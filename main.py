@@ -70,6 +70,7 @@ async def main():
                 enemy_y = random.randint(25, HEIGHT - 25)
                 enemy_speed = 4
                 score = 0
+                lives = STARTING_LIVES
                 start_time = pygame.time.get_ticks()
                 
                 coin_type = random.randint(1, 10)
@@ -166,6 +167,9 @@ async def main():
 
         text = font.render(f"Score: {score}", True, (255, 255, 255))
         screen.blit(text, (20, 20))
+
+        lives_text = small_font.render(f"Lives: {lives}", True, (255, 255, 255))
+        screen.blit(lives_text, (20, 70))
 
         time = font.render(f"Time left: {time_left}", True, (255, 255, 255))
         screen.blit(time, (550, 20))
