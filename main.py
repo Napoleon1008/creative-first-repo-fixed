@@ -130,9 +130,6 @@ async def main():
             current_time = pygame.time.get_ticks()
 
             if enemy.colliderect(player):
-                game_over = True
-                won = False
-
                 if current_time - last_hit_time >= HIT_COOLDOWN:
                     lives -= 1
                     last_hit_time = current_time
