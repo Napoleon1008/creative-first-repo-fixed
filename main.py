@@ -21,7 +21,7 @@ async def main():
     player_img = pygame.image.load("images/player.png").convert_alpha()
     player_img = pygame.transform.scale(player_img, (40, 40))
 
-    enemy_img = pygame.image.load("imgaes/enemy.png").convert_alpha()
+    enemy_img = pygame.image.load("images/enemy.png").convert_alpha()
     enemy_img = pygame.transform.scale(enemy_img, (50, 50))
  
     pygame.display.set_caption("Πιάσε το νόμισμα")
