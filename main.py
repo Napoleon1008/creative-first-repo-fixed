@@ -21,7 +21,8 @@ async def main():
     player_img = pygame.image.load("images/player.png").convert_alpha()
     player_img = pygame.transform.scale(player_img, (40, 40))
 
-
+    enemy_img = pygame.image.load("imgaes/enemy.png").convert_alpha()
+    enemy_img = pygame.transform.scale(enemy_img, (50, 50))
  
     pygame.display.set_caption("Πιάσε το νόμισμα")
     clock = pygame.time.Clock()
@@ -169,7 +170,7 @@ async def main():
         screen.blit(value_text, (coin_x - value_text.get_width() // 2,
                                  coin_y - value_text.get_height() // 2))
 
-        pygame.draw.rect(screen,(220, 70, 70), enemy)
+        screen.blit(enemy_img, enemy)
 
         text = font.render(f"Score: {score}", True, (255, 255, 255))
         screen.blit(text, (20, 20))
