@@ -16,6 +16,13 @@ HIT_COOLDOWN = 1200
 async def main():
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
+ 
+    #loading Graphics
+    player_img = pygame.image.load("images/player.png").convert_alpha()
+    player_img = pygame.transform.scale(player_img, (40, 40))
+
+
+ 
     pygame.display.set_caption("Πιάσε το νόμισμα")
     clock = pygame.time.Clock()
 
@@ -154,7 +161,9 @@ async def main():
 
         # 3) ΖΩΓΡΑΦΙΚΗ
         screen.fill((15, 40, 60))
-        pygame.draw.rect(screen, (80, 200, 120), player)
+        
+        screen.blit(player_img, player)
+        
         pygame.draw.circle(screen, coin_color, (coin_x, coin_y), 15)
         value_text = coin_font.render(str(coin_value), True, (0, 0, 0))
         screen.blit(value_text, (coin_x - value_text.get_width() // 2,
