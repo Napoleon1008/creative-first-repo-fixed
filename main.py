@@ -180,8 +180,13 @@ async def main():
         # 3) ΖΩΓΡΑΦΙΚΗ
         screen.fill((15, 40, 60))
         
-        screen.blit(player_img, player)
-        
+        if moving:
+            frame = (pygame.time.get_ticks() // 150) % len(player_frames)
+        else:
+            frame = 0 
+
+            screen.blit(player_frames[frame], player)
+
         pygame.draw.circle(screen, coin_color, (coin_x, coin_y), 15)
         value_text = coin_font.render(str(coin_value), True, (0, 0, 0))
         screen.blit(value_text, (coin_x - value_text.get_width() // 2,
