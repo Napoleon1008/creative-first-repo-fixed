@@ -185,7 +185,7 @@ async def main():
         else:
             frame = 0 
 
-            screen.blit(player_frames[frame], player)
+        screen.blit(player_frames[frame], player)
 
         pygame.draw.circle(screen, coin_color, (coin_x, coin_y), 15)
         value_text = coin_font.render(str(coin_value), True, (0, 0, 0))
