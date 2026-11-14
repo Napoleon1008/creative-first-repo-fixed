@@ -18,11 +18,24 @@ async def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
  
     #loading Graphics
-    player_img = pygame.image.load("images/player.png").convert_alpha()
-    player_img = pygame.transform.scale(player_img, (40, 40))
+    player_frames = []
+
+    for i in range(4):
+        img = pygame.image.load(f"images/player_{i}.png").convert_alpha()
+        img = pygame.transform.scale(img, (40, 40))
+        player_frames.append(img)
 
     enemy_img = pygame.image.load("images/enemy.png").convert_alpha()
     enemy_img = pygame.transform.scale(enemy_img, (50, 50))
+
+    yellow_coin_img = pygame.image.load("images/coin_yellow.png").convert_alpha()
+    yellow_coin_img = pygame.transform.scale(yellow_coin_img, (30, 30))
+ 
+    blue_coin_img = pygame.image.load("images/coin_blue.png").convert_alpha()
+    blue_coin_img = pygame.transform.scale(blue_coin_img, (30, 30))
+ 
+    purple_coin_img = pygame.image.load("images/coin_purple.png").convert_alpha()
+    purple_coin_img = pygame.transform.scale(purple_coin_img, (30, 30))
  
     pygame.display.set_caption("Πιάσε το νόμισμα")
     clock = pygame.time.Clock()
@@ -66,6 +79,9 @@ async def main():
     running = True
     game_over = False
     while running:
+
+        moving = False 
+
         # 1) ΓΕΓΟΝΟΤΑ
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -100,6 +116,7 @@ async def main():
         # ΒΗΜΑ 2 — κίνηση με τα βελάκια
         if not game_over:
             keys = pygame.key.get_pressed()
+            moving = (keys[pygame.K_LEFT] or keys[pygame.K_RIGHT] or [pygame.K_UP] or [pygame.K_DOWN])     
             if keys[pygame.K_LEFT]:
                 player.x -= speed
             if keys[pygame.K_RIGHT]:
