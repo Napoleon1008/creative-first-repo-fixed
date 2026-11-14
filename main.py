@@ -28,13 +28,13 @@ async def main():
     enemy_img = pygame.image.load("images/enemy.png").convert_alpha()
     enemy_img = pygame.transform.scale(enemy_img, (50, 50))
 
-    yellow_coin_img = pygame.image.load("images/coin_yellow.png").convert_alpha()
+    yellow_coin_img = pygame.image.load("images/coin_yellow-1.png").convert_alpha()
     yellow_coin_img = pygame.transform.scale(yellow_coin_img, (30, 30))
  
-    blue_coin_img = pygame.image.load("images/coin_blue.png").convert_alpha()
+    blue_coin_img = pygame.image.load("images/coin_blue-1.png").convert_alpha()
     blue_coin_img = pygame.transform.scale(blue_coin_img, (30, 30))
  
-    purple_coin_img = pygame.image.load("images/coin_purple.png").convert_alpha()
+    purple_coin_img = pygame.image.load("images/coin_purple-1.png").convert_alpha()
     purple_coin_img = pygame.transform.scale(purple_coin_img, (30, 30))
  
     pygame.display.set_caption("Πιάσε το νόμισμα")
